@@ -1,5 +1,6 @@
 package com.programming.techie.springredditclone.service;
 
+import com.programming.techie.springredditclone.config.AppConfig;
 import com.programming.techie.springredditclone.dto.AuthenticationResponse;
 import com.programming.techie.springredditclone.dto.LoginRequest;
 import com.programming.techie.springredditclone.dto.RefreshTokenRequest;
@@ -38,6 +39,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    private final AppConfig appConfig;
 
     public void signup(RegisterRequest registerRequest) {
         User user = new User();
@@ -53,7 +55,7 @@ public class AuthService {
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
                 user.getEmail(), "Thank you for signing up to Spring Reddit, " +
                 "please click on the below url to activate your account : " +
-                "http://localhost:8080/api/auth/accountVerification/" + token));
+                appConfig.getUrl() +"/api/auth/accountVerification/" + token));
     }
 
     @Transactional(readOnly = true)
